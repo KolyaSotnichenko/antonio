@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Upload, Download } from "lucide-react"
 import { renameAndGetFile } from './actions/renameAndGetFile'
+import dance from './lotties/dance.json'
+import Lottie from 'react-lottie';
 
 export default function App() {
   const [file, setFile] = useState<File | null>(null)
@@ -59,6 +61,15 @@ export default function App() {
     }
   }
 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: dance,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-100">
       <Card className="w-[350px]">
@@ -87,20 +98,23 @@ export default function App() {
         </form>
       </Card>
       {result && (
-        <Alert className="mt-4 w-[350px]">
-          <AlertTitle>File Renamed</AlertTitle>
-          <AlertDescription>
-            <p><strong>Original name:</strong> {result.originalName}</p>
-            <p><strong>New name:</strong> {result.newName}</p>
-            <p className="mt-2">{result.message}</p>
-            {result.fileContent && (
-              <Button onClick={handleDownload} className="mt-2">
-                Download Renamed File
-                <Download className="ml-2 h-4 w-4" />
-              </Button>
-            )}
-          </AlertDescription>
-        </Alert>
+        <div className='flex flex-col gap-y-8'>
+          <Alert className="mt-4 w-[350px]">
+            <AlertTitle>File Renamed</AlertTitle>
+            <AlertDescription>
+              <p><strong>Original name:</strong> {result.originalName}</p>
+              <p><strong>New name:</strong> {result.newName}</p>
+              <p className="mt-2">{result.message}</p>
+              {result.fileContent && (
+                <Button onClick={handleDownload} className="mt-2">
+                  Download Renamed File
+                  <Download className="ml-2 h-4 w-4" />
+                </Button>
+              )}
+            </AlertDescription>
+          </Alert>
+          <Lottie options={defaultOptions} height={250} width={250} />
+        </div>
       )}
     </main>
   )
